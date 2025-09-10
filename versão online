@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa Solidária Fé na Luta - Sistema Completo</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --warning: #f39c12;
+            --light: #f9f9f9;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.97);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            overflow: hidden;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .premios-container {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .premios-container h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .premios-lista {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .premio-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .card h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .card.total .value {
+            color: var(--primary);
+        }
+        
+        .card.disponiveis .value {
+            color: var(--secondary);
+        }
+        
+        .card.reservados .value {
+            color: var(--warning);
+        }
+        
+        .card.vendidos .value {
+            color: var(--accent);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 20px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input, select {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        input[type="number"] {
+            width: 120px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        button.vender {
+            background: linear-gradient(to right, var(--accent), #e67e22);
+        }
+        
+        button.reservar {
+            background: linear-gradient(to right, var(--warning), #e67e22);
+            margin-right: 10px;
+        }
+        
+        .rifa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .numero {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e9ecef;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .numero:hover {
+            transform: scale(1.05);
+            background-color: #d0ebff;
+            border-color: #74c0fc;
+        }
+        
+        .selecionado {
+            background-color: #b197fc;
+            color: white;
+            border-color: #845ef7;
+        }
+        
+        .reservado {
+            background-color: #ffa94d;
+            color: white;
+            border-color: #ff922b;
+        }
+        
+        .pago {
+            background-color: #40c057;
+            color: white;
+            border-color: #2f9e44;
+        }
+        
+        .numero .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 100;
+        }
+        
+        .numero:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .page-btn {
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .venda-panel {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .venda-panel h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .vendas-list {
+            margin-top: 30px;
+        }
+        
+        .vendas-list h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .export-btn {
+            background: var(--gray);
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-disponivel {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        
+        .status-reservado {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-pago {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #6c757d;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+        }
+        
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .rifa-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            }
+            
+            .numero {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Rifa Solidária Fé na Luta</h1>
+            <p class="subtitle">Sistema completo de vendas e acompanhamento</p>
+        </header>
+        
+        <div class="premios-container">
+            <h2>Prêmios da Rifa</h2>
+            <div class="premios-lista">
+                <div class="premio-item">Garrafa térmica com caixa de som acoplada</div>
+                <div class="premio-item">Boné MST (versão lgbt+) e boné preto do "Mátria Livre"</div>
+                <div class="premio-item">Vinil "Romance no Deserto" do cantor Fagner</div>
+                <div class="premio-item">Um par de argolas e um cordão (loja Axé Encanto)</div>
+                <div class="premio-item">Livro da escritora Bell Hooks "Tudo Sobre o Amor"</div>
+            </div>
+        </div>
+        
+        <div id="alertBox" class="alert hidden"></div>
+        
+        <div class="dashboard">
+            <div class="card total">
+                <h3>Total de Números</h3>
+                <div class="value">2000</div>
+            </div>
+            <div class="card disponiveis">
+                <h3>Disponíveis</h3>
+                <div class="value" id="disponiveis-value">2000</div>
+            </div>
+            <div class="card reservados">
+                <h3>Reservados</h3>
+                <div class="value" id="reservados-value">0</div>
+            </div>
+            <div class="card vendidos">
+                <h3>Vendidos</h3>
+                <div class="value" id="vendidos-value">0</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="controls">
+                    <div class="search-box">
+                        <input type="number" id="numeroInput" min="1" max="2000" placeholder="Número">
+                        <button id="searchBtn">Buscar</button>
+                    </div>
+                    
+                    <div>
+                        <select id="filterStatus">
+                            <option value="all">Todos</option>
+                            <option value="disponivel">Disponíveis</option>
+                            <option value="reservado">Reservados</option>
+                            <option value="pago">Pagos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" id="nameSearch" placeholder="Buscar por nome">
+                        <button id="nameSearchBtn">Buscar</button>
+                    </div>
+                    
+                    <button id="resetBtn">Limpar Seleção</button>
+                </div>
+                
+                <div class="rifa-grid" id="rifaContainer">
+                    <!-- Os números serão gerados via JavaScript -->
+                </div>
+                
+                <div class="pagination" id="pagination">
+                    <!-- A paginação será gerada via JavaScript -->
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="venda-panel">
+                    <h3>Registrar Venda/Reserva</h3>
+                    <div class="form-group">
+                        <label for="vendedor">Nome do Vendedor</label>
+                        <input type="text" id="vendedor" placeholder="Quem está vendendo">
+                    </div>
+                    <div class="form-group">
+                        <label for="comprador">Nome do Comprador</label>
+                        <input type="text" id="comprador" placeholder="Quem está comprando">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone do Comprador</label>
+                        <input type="text" id="telefone" placeholder="(00) 00000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="numerosVenda">Números Selecionados</label>
+                        <input type="text" id="numerosVenda" readonly placeholder="Nenhum número selecionado">
+                    </div>
+                    <div class="btn-group">
+                        <button class="reservar" id="reservarBtn">Reservar</button>
+                        <button class="vender" id="venderBtn">Registrar Venda</button>
+                    </div>
+                </div>
+                
+                <div class="vendas-list">
+                    <h3>
+                        Vendas Realizadas
+                        <button class="export-btn" id="exportBtn">Exportar</button>
+                    </h3>
+                    <div class="table-container">
+                        <table id="vendasTable">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Status</th>
+                                    <th>Vendedor</th>
+                                    <th>Comprador</th>
+                                    <th>Telefone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- As vendas serão preenchidas via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Rifa Virtual com Sistema de Vendas | Desenvolvido para organizadores de rifas</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rifaContainer = document.getElementById('rifaContainer');
+            const paginationContainer = document.getElementById('pagination');
+            const disponiveisValue = document.getElementById('disponiveis-value');
+            const reservadosValue = document.getElementById('reservados-value');
+            const vendidosValue = document.getElementById('vendidos-value');
+            const numeroInput = document.getElementById('numeroInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const filterStatus = document.getElementById('filterStatus');
+            const nameSearch = document.getElementById('nameSearch');
+            const nameSearchBtn = document.getElementById('nameSearchBtn');
+            const vendedorInput = document.getElementById('vendedor');
+            const compradorInput = document.getElementById('comprador');
+            const telefoneInput = document.getElementById('telefone');
+            const numerosVendaInput = document.getElementById('numerosVenda');
+            const reservarBtn = document.getElementById('reservarBtn');
+            const venderBtn = document.getElementById('venderBtn');
+            const vendasTable = document.getElementById('vendasTable');
+            const exportBtn = document.getElementById('exportBtn');
+            const alertBox = document.getElementById('alertBox');
+            
+            const TOTAL_NUMEROS = 2000;
+            const NUMEROS_POR_PAGINA = 200;
+            const TOTAL_PAGINAS = Math.ceil(TOTAL_NUMEROS / NUMEROS_POR_PAGINA);
+            
+            let numerosSelecionados = [];
+            let paginaAtual = 1;
+            let vendas = [];
+            
+            // Inicializar dados da rifa
+            let numerosRifa = JSON.parse(localStorage.getItem('numerosRifa')) || [];
+            
+            // Se não houver dados salvos, inicializar
+            if (numerosRifa.length === 0) {
+                for (let i = 1; i <= TOTAL_NUMEROS; i++) {
+                    numerosRifa.push({
+                        numero: i,
+                        status: 'disponivel', // disponivel, reservado, pago
+                        vendedor: '',
+                        comprador: '',
+                        telefone: ''
+                    });
+                }
+                salvarDados();
+            }
+            
+            // Carregar vendas do localStorage
+            const vendasSalvas = JSON.parse(localStorage.getItem('vendasRifa')) || [];
+            vendas = vendasSalvas;
+            
+            // Aplicar máscara de telefone
+            telefoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
+                
+                if (value.length > 0) {
+                    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                    if (value.length > 10) {
+                        value = value.replace(/(\d{5})(\d)/, '$1-$2');
+                    } else {
+                        value = value.replace(/(\d{4})(\d)/, '$1-$2');
+                    }
+                }
+                e.target.value = value;
+            });
+            
+            // Mostrar alerta
+            function showAlert(message, type) {
+                alertBox.textContent = message;
+                alertBox.className = `alert alert-${type}`;
+                alertBox.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    alertBox.classList.add('hidden');
+                }, 3000);
+            }
+            
+            // Salvar dados no localStorage
+            function salvarDados() {
+                localStorage.setItem('numerosRifa', JSON.stringify(numerosRifa));
+                localStorage.setItem('vendasRifa', JSON.stringify(vendas));
+            }
+            
+            // Gerar os números da rifa
+            function gerarNumeros() {
+                rifaContainer.innerHTML = '';
+                const inicio = (paginaAtual - 1) * NUMEROS_POR_PAGINA + 1;
+                const fim = Math.min(paginaAtual * NUMEROS_POR_PAGINA, TOTAL_NUMEROS);
+                
+                for (let i = inicio; i <= fim; i++) {
+                    const numeroData = numerosRifa[i - 1];
+                    const numeroElement = document.createElement('div');
+                    numeroElement.className = 'numero';
+                    numeroElement.textContent = i;
+                    numeroElement.dataset.numero = i;
+                    
+                    // Aplicar classe conforme status
+                    if (numeroData.status === 'reservado') {
+                        numeroElement.classList.add('reservado');
+                    } else if (numeroData.status === 'pago') {
+                        numeroElement.classList.add('pago');
+                    }
+                    
+                    // Adicionar tooltip com informações
+                    if (numeroData.status !== 'disponivel') {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = `${numeroData.comprador || 'N/A'} - ${numeroData.telefone || 'N/A'}`;
+                        numeroElement.appendChild(tooltip);
+                    }
+                    
+                    // Aplicar filtro de status
+                    const statusFilter = filterStatus.value;
+                    if (statusFilter !== 'all' && numeroData.status !== statusFilter) {
+                        numeroElement.style.display = 'none';
+                    }
+                    
+                    numeroElement.addEventListener('click', () => toggleSelecao(numeroElement));
+                    rifaContainer.appendChild(numeroElement);
+                }
+                
+                atualizarContadores();
+                atualizarNumerosVenda();
+                atualizarTabelaVendas();
+            }
+            
+            // Gerar paginação
+            function gerarPaginacao() {
+                paginationContainer.innerHTML = '';
+                
+                // Botão anterior
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'page-btn';
+                prevBtn.textContent = '«';
+                prevBtn.addEventListener('click', () => {
+                    if (paginaAtual > 1) {
+                        paginaAtual--;
+                        gerarNumeros();
+                        gerarPaginacao();
+                    }
+                });
+                paginationContainer.appendChild(prevBtn);
+                
+                // Botões de página
+                for (let i = 1; i <= TOTAL_PAGINAS; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = 'page-btn';
+                    if (i === paginaAtual) pageBtn.classList.add('active');
+                    pageBtn.textContent = i;
+                    pageBtn.addEventListener('click', () => {
+                        paginaAtual = i;
+                        gerarNumeros();
+                        gerarPaginacao();
+                    });
+                    paginationContainer.appendChild(pageBtn);
+                }
+                
+                // Botão próximo
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'page-btn';
+                nextBtn.textContent = '»';
+                nextBtn.addEventListener('click', () => {
+                    if (paginaAtual < TOTAL_PAGINAS) {
+                        paginaAtual++;
+                        gerarNumeros();
+                        gerarPaginacao();
+                    }
+                });
+                paginationContainer.appendChild(nextBtn);
+            }
+            
+            // Alternar seleção de número
+            function toggleSelecao(elemento) {
+                const numero = parseInt(elemento.dataset.numero);
+                const numeroData = numerosRifa[numero - 1];
+                
+                // Não permitir selecionar números já vendidos
+                if (numeroData.status === 'pago') {
+                    showAlert('Este número já foi vendido e pago.', 'danger');
+                    return;
+                }
+                
+                if (elemento.classList.contains('selecionado')) {
+                    elemento.classList.remove('selecionado');
+                    numerosSelecionados = numerosSelecionados.filter(n => n !== numero);
+                } else {
+                    elemento.classList.add('selecionado');
+                    numerosSelecionados.push(numero);
+                }
+                
+                atualizarNumerosVenda();
+            }
+            
+            // Atualizar contadores
+            function atualizarContadores() {
+                const disponiveis = numerosRifa.filter(num => num.status === 'disponivel').length;
+                const reservados = numerosRifa.filter(num => num.status === 'reservado').length;
+                const vendidos = numerosRifa.filter(num => num.status === 'pago').length;
+                
+                disponiveisValue.textContent = disponiveis;
+                reservadosValue.textContent = reservados;
+                vendidosValue.textContent = vendidos;
+            }
+            
+            // Atualizar input de números para venda
+            function atualizarNumerosVenda() {
+                numerosVendaInput.value = numerosSelecionados.join(', ');
+            }
+            
+            // Atualizar tabela de vendas
+            function atualizarTabelaVendas() {
+                // Limpar tabela
+                vendasTable.querySelector('tbody').innerHTML = '';
+                
+                // Adicionar vendas
+                vendas.forEach(venda => {
+                    const newRow = vendasTable.insertRow(-1);
+                    newRow.insertCell(0).textContent = venda.numero;
+                    
+                    const statusCell = newRow.insertCell(1);
+                    const statusBadge = document.createElement('span');
+                    statusBadge.className = `status-badge status-${venda.status}`;
+                    statusBadge.textContent = venda.status === 'pago' ? 'Pago' : 'Reservado';
+                    statusCell.appendChild(statusBadge);
+                    
+                    newRow.insertCell(2).textContent = venda.vendedor;
+                    newRow.insertCell(3).textContent = venda.comprador;
+                    newRow.insertCell(4).textContent = venda.telefone;
+                });
+            }
+            
+            // Buscar número específico
+            searchBtn.addEventListener('click', () => {
+                const numero = parseInt(numeroInput.value);
+                
+                if (isNaN(numero) || numero < 1 || numero > TOTAL_NUMEROS) {
+                    showAlert('Por favor, digite um número entre 1 e 2000', 'danger');
+                    return;
+                }
+                
+                paginaAtual = Math.ceil(numero / NUMEROS_POR_PAGINA);
+                gerarNumeros();
+                gerarPaginacao();
+                
+                // Destacar o número buscado
+                setTimeout(() => {
+                    const elemento = document.querySelector(`.numero[data-numero="${numero}"]`);
+                    if (elemento) {
+                        elemento.style.backgroundColor = '#ff6b6b';
+                        elemento.style.color = 'white';
+                        
+                        // Rolar para o elemento
+                        elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Voltar à cor original após 2 segundos
+                        setTimeout(() => {
+                            if (!elemento.classList.contains('selecionado')) {
+                                elemento.style.backgroundColor = '';
+                                elemento.style.color = '';
+                            }
+                        }, 2000);
+                    }
+                }, 100);
+            });
+            
+            // Buscar por nome
+            nameSearchBtn.addEventListener('click', () => {
+                const nome = nameSearch.value.trim().toLowerCase();
+                
+                if (!nome) {
+                    showAlert('Por favor, digite um nome para buscar', 'danger');
+                    return;
+                }
+                
+                // Filtrar vendas pelo nome
+                const resultados = vendas.filter(venda => 
+                    venda.vendedor.toLowerCase().includes(nome) || 
+                    venda.comprador.toLowerCase().includes(nome)
+                );
+                
+                if (resultados.length === 0) {
+                    showAlert('Nenhum resultado encontrado para: ' + nome, 'danger');
+                    return;
+                }
+                
+                // Mostrar resultados na tabela
+                vendasTable.querySelector('tbody').innerHTML = '';
+                
+                resultados.forEach(venda => {
+                    const newRow = vendasTable.insertRow(-1);
+                    newRow.insertCell(0).textContent = venda.numero;
+                    
+                    const statusCell = newRow.insertCell(1);
+                    const statusBadge = document.createElement('span');
+                    statusBadge.className = `status-badge status-${venda.status}`;
+                    statusBadge.textContent = venda.status === 'pago' ? 'Pago' : 'Reservado';
+                    statusCell.appendChild(statusBadge);
+                    
+                    newRow.insertCell(2).textContent = venda.vendedor;
+                    newRow.insertCell(3).textContent = venda.comprador;
+                    newRow.insertCell(4).textContent = venda.telefone;
+                });
+                
+                showAlert(`Encontrados ${resultados.length} resultado(s) para: ${nome}`, 'success');
+            });
+            
+            // Limpar seleção
+            resetBtn.addEventListener('click', () => {
+                numerosSelecionados = [];
+                document.querySelectorAll('.numero.selecionado').forEach(el => {
+                    el.classList.remove('selecionado');
+                });
+                atualizarNumerosVenda();
+                nameSearch.value = '';
+                filterStatus.value = 'all';
+                gerarNumeros();
+                atualizarTabelaVendas();
+            });
+            
+            // Registrar reserva
+            reservarBtn.addEventListener('click', () => {
+                const vendedor = vendedorInput.value.trim();
+                const comprador = compradorInput.value.trim();
+                const telefone = telefoneInput.value.trim();
+                
+                if (numerosSelecionados.length === 0) {
+                    showAlert('Selecione pelo menos um número para reservar.', 'danger');
+                    return;
+                }
+                
+                if (!vendedor) {
+                    showAlert('Informe o nome do vendedor.', 'danger');
+                    return;
+                }
+                
+                if (!comprador) {
+                    showAlert('Informe o nome do comprador.', 'danger');
+                    return;
+                }
+                
+                if (!telefone) {
+                    showAlert('Informe o telefone do comprador.', 'danger');
+                    return;
+                }
+                
+                // Registrar a reserva para cada número selecionado
+                numerosSelecionados.forEach(num => {
+                    const numeroData = numerosRifa[num - 1];
+                    
+                    // Se já está reservado ou pago, pular
+                    if (numeroData.status !== 'disponivel') {
+                        showAlert(`O número ${num} já está ${numeroData.status === 'pago' ? 'pago' : 'reservado'}. Pulando.`, 'danger');
+                        return;
+                    }
+                    
+                    numeroData.status = 'reservado';
+                    numeroData.vendedor = vendedor;
+                    numeroData.comprador = comprador;
+                    numeroData.telefone = telefone;
+                    
+                    // Adicionar à lista de vendas
+                    vendas.push({
+                        numero: num,
+                        status: 'reservado',
+                        vendedor: vendedor,
+                        comprador: comprador,
+                        telefone: telefone
+                    });
+                });
+                
+                // Limpar formulário e seleção
+                vendedorInput.value = '';
+                compradorInput.value = '';
+                telefoneInput.value = '';
+                numerosSelecionados = [];
+                
+                // Salvar dados e atualizar interface
+                salvarDados();
+                gerarNumeros();
+                showAlert('Reserva registrada com sucesso!', 'success');
+            });
+            
+            // Registrar venda
+            venderBtn.addEventListener('click', () => {
+                const vendedor = vendedorInput.value.trim();
+                const comprador = compradorInput.value.trim();
+                const telefone = telefoneInput.value.trim();
+                
+                if (numerosSelecionados.length === 0) {
+                    showAlert('Selecione pelo menos um número para vender.', 'danger');
+                    return;
+                }
+                
+                if (!vendedor) {
+                    showAlert('Informe o nome do vendedor.', 'danger');
+                    return;
+                }
+                
+                if (!comprador) {
+                    showAlert('Informe o nome do comprador.', 'danger');
+                    return;
+                }
+                
+                if (!telefone) {
+                    showAlert('Informe o telefone do comprador.', 'danger');
+                    return;
+                }
+                
+                // Registrar a venda para cada número selecionado
+                numerosSelecionados.forEach(num => {
+                    const numeroData = numerosRifa[num - 1];
+                    numeroData.status = 'pago';
+                    numeroData.vendedor = vendedor;
+                    numeroData.comprador = comprador;
+                    numeroData.telefone = telefone;
+                    
+                    // Verificar se já existe uma venda/reserva para este número
+                    const vendaIndex = vendas.findIndex(v => v.numero === num);
+                    
+                    if (vendaIndex !== -1) {
+                        // Atualizar venda existente
+                        vendas[vendaIndex] = {
+                            numero: num,
+                            status: 'pago',
+                            vendedor: vendedor,
+                            comprador: comprador,
+                            telefone: telefone
+                        };
+                    } else {
+                        // Adicionar nova venda
+                        vendas.push({
+                            numero: num,
+                            status: 'pago',
+                            vendedor: vendedor,
+                            comprador: comprador,
+                            telefone: telefone
+                        });
+                    }
+                });
+                
+                // Limpar formulário e seleção
+                vendedorInput.value = '';
+                compradorInput.value = '';
+                telefoneInput.value = '';
+                numerosSelecionados = [];
+                
+                // Salvar dados e atualizar interface
+                salvarDados();
+                gerarNumeros();
+                showAlert('Venda registrada com sucesso!', 'success');
+            });
+            
+            // Filtrar por status
+            filterStatus.addEventListener('change', () => {
+                gerarNumeros();
+            });
+            
+            // Exportar dados
+            exportBtn.addEventListener('click', () => {
+                // Criar CSV
+                let csv = 'Número,Status,Vendedor,Comprador,Telefone\n';
+                
+                vendas.forEach(venda => {
+                    csv += `${venda.numero},${venda.status === 'pago' ? 'Pago' : 'Reservado'},${venda.vendedor},${venda.comprador},${venda.telefone}\n`;
+                });
+                
+                // Criar blob e download
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'vendas_rifa.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showAlert('Dados exportados com sucesso!', 'success');
+            });
+            
+            // Inicializar
+            gerarNumeros();
+            gerarPaginacao();
+            atualizarTabelaVendas();
+        });
+    </script>
+</body>
+</html>
